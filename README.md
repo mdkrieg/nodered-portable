@@ -31,7 +31,7 @@ Then, if that completes successfully run the make script.
 ```
 npm run make
 ```
-This will save the built program to the "./out" folder.
+This will save the compiled program to the "./out" directory (creating if needed).
 
 If the above fails you may need to install windows build tools using ***Administrator Prompt***
 ```
