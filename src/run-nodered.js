@@ -30,7 +30,7 @@ module.exports = function(){
     // Serve the http nodes UI from /api
     app.use(settings.httpNodeRoot,RED.httpNode);
 
-    server.listen(1882);
+    server.listen(50820);
 
     // Start the runtime
     RED.start();

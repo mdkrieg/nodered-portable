@@ -27,17 +27,14 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "npm"
+        "packageManager": "npm",
+        "icon": "src/RED.ico"
       },
       "electronWinstallerConfig": {
         "name": "nodered_portable"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/mdkrieg/nodered-portable.git"
-      },
       "windowsStoreConfig": {
         "packageName": "",
         "name": "noderedportable"
