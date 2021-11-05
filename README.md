@@ -1,7 +1,7 @@
 # nodered-portable
 Node-RED Portable Version via Electron
 
-Source Repo: https://github.com/node-red/node-red
+Node-RED source: https://github.com/node-red/node-red
 
 ## Download
 
