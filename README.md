@@ -1,7 +1,7 @@
 # nodered-portable
 #### Node-RED Portable Version via Electron
 
-Note: Uses port 50820, see [how to change port](https://github.com/mdkrieg/nodered-portable#changing-port)
+***Note: Uses port 50820***, see [how to change port](https://github.com/mdkrieg/nodered-portable#changing-port)
 
 Node-RED source: https://github.com/node-red/node-red
 
