@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript">
+      var url = 'http://localhost:8989/red';
+      function getData(){
+        console.log("getData...");
+      let xml = new XMLHttpRequest();
+        xml.open('GET',url, true );
+        xml.timeout = 1000;
+        xml.onload  = function(){
+          if(this.status ==200){
+            document.location.href = url;
+          }else{console.log("not ready")}
+          }
+        xml.send();  
+      }
+      var n = 0;
+      function animateEllipses(){
+        var targ = document.getElementById("dots");
+        var out = ".".repeat(n);
+        targ.innerHTML = out;
+        n++;
+        if(n>3)n=0;
+      }
+      setInterval(getData,1000);
+      setInterval(animateEllipses, 500);
+    </script>
+  </head>
+  <body>
+    <!--a href="http://localhost:8000/red">GO</a-->
+    <h1 style="text-align:center;">Loading<span id="dots" style="display:inline-block; width:40px;text-align:left;"></span></h1>
+</html>
