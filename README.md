@@ -73,3 +73,13 @@ These are the "make_targets" listed in the default package.json:
   ]
 },
 ```
+#### Changing Port
+
+To change the port used, modify the following line in "./src/run-nodered.js"
+```
+server.listen(50820);
+```
+And modify the following line in "./src/index.html"
+```
+var url = 'http://localhost:50820/red';
+```
