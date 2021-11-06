@@ -1,7 +1,7 @@
 {
   "name": "nodered-portable",
   "productName": "nodered-portable",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Node-RED: Portable Version",
   "homepage": "http://nodered.org",
   "main": "src/index.js",

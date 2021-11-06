@@ -1,40 +1,66 @@
 module.exports = function(){
-    var http = require('http');
-    var express = require("express");
-    var RED = require("../node_modules/node-red");
+    const http = require('http');
+    const express = require("express");
 
-    // Create an Express app
-    var app = express();
+    const WebSocket = require('ws');
+    const WSv = new WebSocket.Server({port: 50820});
+    console.log("foo")
+    let socket;
+    let inputs;
+    WSv.on('connection', function(s) {
+        socket = s;
+        // When you receive a message, send that message to every socket.
+        socket.on('message', function(msg) {
+            inputs = JSON.parse(msg);
+        });
 
-    // Add a simple route for static content served from 'public'
-    app.use("/",express.static("public"));
+        // Only start NR on websocket close
+        socket.on('close', function() {
+            startNodeRED();
+        });
+    });
 
-    // Create a server
-    var server = http.createServer(app);
+    function startNodeRED(){
+        var RED = require("../node_modules/node-red");
 
-    // Create the settings object - see default settings.js file for other options
-    var settings = {
-        httpAdminRoot:"/red",
-        httpNodeRoot: "/api",
-        userDir:"nodered",
-        httpStatic:"public",
-        functionGlobalContext: { }    // enables global context
-    };
+        // Create an Express app
+        var app = express();
+        
+        // Create a server
+        var REDserver = http.createServer(app);
 
-    // Initialise the runtime with a server and settings
-    RED.init(server,settings);
+        // Create the settings object - see default settings.js file for other options
+        var settings = {
+            httpAdminRoot: inputs.adminPath || "/red",
+            httpNodeRoot: inputs.nodePath || "/api",
+            userDir:"home",
+            httpStatic:"public",
+            contextStorage: {
+                default: {
+                    module:"localfilesystem",
+                    config: {
+                        dir: "context"
+                    }
+                }
+            }
+        };
 
-    // Serve the editor UI from /red
-    app.use(settings.httpAdminRoot,RED.httpAdmin);
-
-    // Serve the http nodes UI from /api
-    app.use(settings.httpNodeRoot,RED.httpNode);
-
-    server.listen(50820);
-
-    // Start the runtime
-    RED.start();
+        // Initialise the runtime with a server and settings
+        RED.init(REDserver,settings);
+        
+        // Add a simple route for static content served from 'public'
+        app.use("/",express.static(settings.httpStatic));
+        // Serve the editor UI from /red
+        app.use(settings.httpAdminRoot,RED.httpAdmin);
+        // Serve the http nodes UI from /api
+        app.use(settings.httpNodeRoot,RED.httpNode);
+        
+        REDserver.listen(inputs.port || 1880);
+        
+        // Start the runtime
+        RED.start();
+    }
 };
-if (require.main === module) {
-    module.exports();
-}
+// if (require.main === module) {
+//     module.exports();
+// }

@@ -1,7 +1,9 @@
-const debug = process.env.debug || "PROD";
+const debug = "PROD" || process.env.debug || "PROD";
 
 import { app, BrowserWindow } from 'electron';
-var nodered = require("./run-nodered.js");
+
+const nodered = require("./run-nodered.js");
+nodered();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -12,7 +14,6 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-nodered();
 
 const createWindow = () => {
   // Create the browser window.
@@ -56,6 +57,7 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
+  
 });
 
 // In this file you can include the rest of your app's specific main process
