@@ -1,8 +1,6 @@
 # nodered-portable
 #### Node-RED Portable Version via Electron
 
-***Note: Uses port 50820***, see [how to change port](https://github.com/mdkrieg/nodered-portable#changing-port)
-
 Node-RED source: https://github.com/node-red/node-red
 
 ## Download
@@ -74,14 +72,4 @@ These are the "make_targets" listed in the default package.json:
     "rpm"
   ]
 },
-```
-## Changing Port
-
-To change the port used, modify the following line in "./src/run-nodered.js"
-```
-server.listen(50820);
-```
-And modify the following line in "./src/index.html"
-```
-var url = 'http://localhost:50820/red';
 ```
