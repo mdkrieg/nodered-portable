@@ -1,24 +1,27 @@
 module.exports = function(){
     const http = require('http');
     const express = require("express");
-
-    const WebSocket = require('ws');
-    const WSv = new WebSocket.Server({port: 50820});
-    console.log("foo")
-    let socket;
     let inputs;
-    WSv.on('connection', function(s) {
-        socket = s;
-        // When you receive a message, send that message to every socket.
-        socket.on('message', function(msg) {
-            inputs = JSON.parse(msg);
-        });
+    if (require.main === module) {
+        inputs = {};
+        startNodeRED();
+    }else{
+        const WebSocket = require('ws');
+        const WSv = new WebSocket.Server({port: 50820});
+        let socket;
+        WSv.on('connection', function(s) {
+            socket = s;
+            // When you receive a message, send that message to every socket.
+            socket.on('message', function(msg) {
+                inputs = JSON.parse(msg);
+            });
 
-        // Only start NR on websocket close
-        socket.on('close', function() {
-            startNodeRED();
+            // Only start NR on websocket close
+            socket.on('close', function() {
+                startNodeRED();
+            });
         });
-    });
+    }
 
     function startNodeRED(){
         var RED = require("../node_modules/node-red");
@@ -33,7 +36,7 @@ module.exports = function(){
         var settings = {
             httpAdminRoot: inputs.adminPath || "/red",
             httpNodeRoot: inputs.nodePath || "/api",
-            userDir:"home",
+            userDir:".",
             httpStatic:"public",
             contextStorage: {
                 default: {
@@ -61,6 +64,6 @@ module.exports = function(){
         RED.start();
     }
 };
-// if (require.main === module) {
-//     module.exports();
-// }
+if (require.main === module) {
+    module.exports();
+}
